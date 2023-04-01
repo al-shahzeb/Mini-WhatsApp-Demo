@@ -26,7 +26,7 @@ public class WhatsappService {
         return whatsappRepository.changeAdmin(approver,user,group);
     }
 
-    public int removeUser(User user) {
+    public int removeUser(User user) throws Exception{
         return whatsappRepository.removeUser(user);
     }
 
@@ -34,7 +34,7 @@ public class WhatsappService {
         return whatsappRepository.findMessage(start,end,k);
     }
 
-    public int sendMessage(Message message, User sender, Group group) {
+    public int sendMessage(Message message, User sender, Group group) throws Exception{
         return whatsappRepository.sendMessage(message,sender,group);
     }
 }
