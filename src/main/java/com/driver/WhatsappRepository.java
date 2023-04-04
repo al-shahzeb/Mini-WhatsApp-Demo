@@ -146,9 +146,32 @@ public class WhatsappRepository {
         return 0;
     }
 
-    public String findMessage(Date start, Date end, int k) {
+    public String findMessage(Date start, Date end, int k) throws Exception{
 
-        return "";
+        List<Message> messageList=new ArrayList<>();
+        for(int i=0; i<groupMessageMap.size(); i++)
+            messageList.addAll(groupMessageMap.get(i));
+
+        PriorityQueue<Message> filterdList=new PriorityQueue<>((a,b)->{
+            return a.getContent().length()-b.getContent().length();
+        });
+
+        for(Message message: messageList) {
+            if (message.getTimestamp().after(start) && message.getTimestamp().before(end)) {
+                filterdList.add(message);
+            }
+
+            if(filterdList.size()>k){
+                filterdList.remove();
+            }
+        }
+
+        if(filterdList.size()<k)
+            throw new Exception("K is greater than the number of messages");
+
+
+
+        return filterdList.remove().getContent();
     }
 
     public int sendMessage(Message message, User sender, Group group) throws Exception{
